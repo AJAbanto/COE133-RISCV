@@ -7,7 +7,14 @@ module ALU(
     output [31:0] Alu_out
     );
     
-    case (Alu_op)
+    always@(A or B) begin
+        case(Alu_op)
+            3'b000: Alu_out = A + B;
+            3'b001: 
+        endcase
+        
+    
+    end
     
     
 endmodule
