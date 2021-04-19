@@ -8,7 +8,7 @@ module control(
     input [31:0] instr,
     output ALUsrc,
     output [2:0] ALUOp,
-    output memtoreg,
+    output [1:0] memtoreg,
     output mem_wr,
     output mem_rd,
     output bne,
@@ -21,7 +21,7 @@ module control(
     //Output registers
     reg ALUsrc_o;
     reg [2:0] ALUOp_o;
-    reg memtoreg_o;
+    reg [1:0] memtoreg_o;
     reg mem_wr_o;
     reg mem_rd_o;
     reg bne_o;
@@ -60,7 +60,7 @@ module control(
             //Reg-to-reg arithmetic operation
             `ARITH: begin 
                 ALUsrc_o    <= 0;
-                memtoreg_o  <= 0;
+                memtoreg_o  <= 2'b0;
                 mem_wr_o    <= 0;
                 mem_rd_o    <= 0;
                 bne_o       <= 0;
@@ -86,7 +86,7 @@ module control(
             //Reg-immediate operation
             `ADDI: begin
                 ALUsrc_o    <= 1;   //set rs2 of ALU to be from immediate
-                memtoreg_o  <= 0;
+                memtoreg_o  <= 2'b0;
                 mem_wr_o    <= 0;
                 mem_rd_o    <= 0;
                 bne_o       <= 0;
@@ -96,10 +96,10 @@ module control(
                 jal_o       <= 0;
             end
             
-            //Conditional branch (bne and beq)
+            //Conditional branch (bne and beq) operation
             `COND: begin
                 ALUsrc_o    <= 0;   
-                memtoreg_o  <= 0;
+                memtoreg_o  <= 2'b0;
                 mem_wr_o    <= 0;
                 mem_rd_o    <= 0;
                 bra_o       <= 1;   //flag branch instruction
@@ -111,6 +111,35 @@ module control(
                 if(funct3 == `BNE) bne_o <= 1;
                 else bne_o <= 0;
             end
+            
+            //Unconditional Jump operation
+            `JAL: begin
+                ALUsrc_o    <= 0;   
+                memtoreg_o  <= 2'b10;   //store PC+4 to rd
+                mem_wr_o    <= 0;
+                mem_rd_o    <= 0;
+                bra_o       <= 0;
+                bne_o       <= 0;   
+                reg_wr_o    <= 1;       //enable regwrite to store  PC+4 
+                reg_dst_o   <= 0;
+                jal_o       <= 1;       //flag JAL instruction
+            end
+            
+            
+            //Unconditional Jump using immediate + offset operation
+            `JALR: begin
+                ALUsrc_o    <= 1;       //use Immediate as rs2 source for ALU   
+                memtoreg_o  <= 2'b0;    //store PC+4 plus offset from rs1 into rd
+                mem_wr_o    <= 0;
+                mem_rd_o    <= 0;
+                bra_o       <= 0;
+                bne_o       <= 0;   
+                reg_wr_o    <= 1;       //enable regwrite to store  PC+4 
+                reg_dst_o   <= 0;
+                jal_o       <= 1;       //flag JAL instruction
+            end
+            
+            
             
             
         endcase
