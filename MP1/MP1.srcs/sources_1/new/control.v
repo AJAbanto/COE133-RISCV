@@ -5,17 +5,16 @@
 
 
 module control(
-    input [31:0] instr,
+    input  [31:0] instr,
     output ALUsrc,
     output [2:0] ALUOp,
     output [1:0] memtoreg,
     output mem_wr,
-    output mem_rd,
     output bne,
     output bra,
     output reg_wr,
     output reg_dst,
-    output jal
+    output jump
     );
     
     //Output registers
@@ -28,19 +27,18 @@ module control(
     reg bra_o;
     reg reg_wr_o;
     reg reg_dst_o;
-    reg jal_o;
+    reg jump_o;
     
     //Connection to outputs
-    assign ALUsrc = ALUsrc_o;
-    assign ALUOp = ALUOp_o;
+    assign ALUsrc   = ALUsrc_o;
+    assign ALUOp    = ALUOp_o;
     assign memtoreg = memtoreg_o;
-    assign mem_wr = mem_wr_o;
-    assign mem_rd = mem_rd_o;
-    assign bne = bne_o;
-    assign bra = bra_o;
-    assign reg_wr = reg_wr_o;
-    assign reg_dst = reg_dst_o;
-    assign jal = jal_o;
+    assign mem_wr   = mem_wr_o;
+    assign bne      = bne_o;
+    assign bra      = bra_o;
+    assign reg_wr   = reg_wr_o;
+    assign reg_dst  = reg_dst_o;
+    assign jump      = jump_o;
     
     //Instruction control bits
     wire [6:0] funct7;
@@ -58,16 +56,15 @@ module control(
         case(opcode)
         
             //Reg-to-reg arithmetic operation
-            `ARITH: begin 
+            `ARITH: begin
                 ALUsrc_o    <= 0;
                 memtoreg_o  <= 2'b0;
                 mem_wr_o    <= 0;
-                mem_rd_o    <= 0;
                 bne_o       <= 0;
                 bra_o       <= 0;
-                reg_wr_o    <= 1;   //enable regwrite 
+                reg_wr_o    <= 1;       //enable regwrite 
                 reg_dst_o   <= 0;
-                jal_o       <= 0;
+                jump_o       <= 0;
                 
                 //Choosing ALU Opcode
                 case(funct3)
@@ -85,62 +82,91 @@ module control(
             
             //Reg-immediate operation
             `ADDI: begin
-                ALUsrc_o    <= 1;   //set rs2 of ALU to be from immediate
-                memtoreg_o  <= 2'b0;
+                ALUsrc_o    <= 1;       //set rs2 of ALU to be from immediate
+                memtoreg_o  <= 2'b0;    //store ALU result to register
                 mem_wr_o    <= 0;
-                mem_rd_o    <= 0;
                 bne_o       <= 0;
                 bra_o       <= 0;
-                reg_wr_o    <= 1;   //enable regwrite 
+                reg_wr_o    <= 1;       //enable regwrite 
                 reg_dst_o   <= 0;
-                jal_o       <= 0;
+                jump_o      <= 0;
             end
             
             //Conditional branch (bne and beq) operation
             `COND: begin
                 ALUsrc_o    <= 0;   
-                memtoreg_o  <= 2'b0;
+                memtoreg_o  <= 2'b00;
                 mem_wr_o    <= 0;
-                mem_rd_o    <= 0;
-                bra_o       <= 1;   //flag branch instruction
-                reg_wr_o    <= 0;   //enable regwrite 
+                bra_o       <= 1;       //flag branch instruction
+                reg_wr_o    <= 0;       //enable regwrite 
                 reg_dst_o   <= 0;
-                jal_o       <= 0;
+                jump_o      <= 0;
                 
                 //if bne instruction then assert bne flag
-                if(funct3 == `BNE) bne_o <= 1;
-                else bne_o <= 0;
+                if(funct3 == `BNE)  bne_o <= 1;
+                else                bne_o <= 0;
             end
             
             //Unconditional Jump operation
             `JAL: begin
                 ALUsrc_o    <= 0;   
-                memtoreg_o  <= 2'b10;   //store PC+4 to rd
+                memtoreg_o  <= 2'b10;   //store (PC+4) to rd
                 mem_wr_o    <= 0;
-                mem_rd_o    <= 0;
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 1;       //enable regwrite to store  PC+4 
+                reg_wr_o    <= 1;       //enable regwrite to store (PC+4) 
                 reg_dst_o   <= 0;
-                jal_o       <= 1;       //flag JAL instruction
+                jump_o      <= 1;       //flag JAL instruction
             end
             
             
             //Unconditional Jump using immediate + offset operation
             `JALR: begin
-                ALUsrc_o    <= 1;       //use Immediate as rs2 source for ALU   
-                memtoreg_o  <= 2'b0;    //store PC+4 plus offset from rs1 into rd
+                ALUsrc_o    <= 1;       //  Immediate as rs2 source for ALU   
+                memtoreg_o  <= 2'b10;   //  store(PC+4) into rd
                 mem_wr_o    <= 0;
-                mem_rd_o    <= 0;
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 1;       //enable regwrite to store  PC+4 
+                reg_wr_o    <= 1;       //enable regwrite to store (PC+4) 
                 reg_dst_o   <= 0;
-                jal_o       <= 1;       //flag JAL instruction
+                jump_o      <= 1;       //flag JAL instruction
             end
             
+            //Load word from memory module
+            `LOAD: begin
+                ALUsrc_o    <= 1;       //  Immediate as rs2 source for ALU   
+                memtoreg_o  <= 2'b01;   //  store memdata to register
+                mem_wr_o    <= 0;
+                bra_o       <= 0;
+                bne_o       <= 0;   
+                reg_wr_o    <= 1;       //  enable regwrite to store load data
+                reg_dst_o   <= 0;
+                jump_o      <= 0;       
+            end
             
+            //store word in memory module
+            `STORE: begin
+                ALUsrc_o    <= 1;       //  Immediate as rs2 source for ALU   
+                memtoreg_o  <= 2'b00;   //  store memdata to register
+                mem_wr_o    <= 1;       //  write to memory
+                bra_o       <= 0;
+                bne_o       <= 0;   
+                reg_wr_o    <= 0;       //  disable regwrite
+                reg_dst_o   <= 0;
+                jump_o      <= 0;       
+            end
             
+            //deassert all signals by default
+            default: begin
+                ALUsrc_o    <= 0;       //  regfile as source
+                memtoreg_o  <= 2'b00;   //  alu as register writedata
+                mem_wr_o    <= 0;     
+                bra_o       <= 0;
+                bne_o       <= 0;   
+                reg_wr_o    <= 0;       //  disable regwrite
+                reg_dst_o   <= 0;
+                jump_o      <= 0;       
+            end
             
         endcase
     end
