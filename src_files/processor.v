@@ -26,6 +26,7 @@ module processor(
     //ALU wires
     wire [31:0] rs1;
     wire [31:0] rs2;
+    
     wire [31:0] alu_res;
     wire        zero;
     
@@ -68,7 +69,10 @@ module processor(
     assign funct3 = inst[14:12];
     assign opcode = inst[6:0];
     
-    
+    //To do:
+    //Connect alu to decoded instructions
+    assign rs1 = inst[19:15];
+    assign rs2 = inst[24:20];
     
     /////////////////////////////////////////
     
@@ -119,11 +123,11 @@ module processor(
                                                      //else take source from register data
     //Instantiation
     ALU a0(
-        .ALUOp(ALUOp),
+        .Alu_op(ALUOp),
         .rs1(rs1),
         .rs2(rs2),
         .zero(zero),
-        .ALU_res(res)
+        .Alu_res(res)
     );
     
     

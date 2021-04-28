@@ -16,7 +16,7 @@ module regfile(
     input           wr_en
     
     );
-    reg [31:0]  gen_reg[4:0]; //32-bit general purpose register
+    reg [31:0]  gen_reg[31:0]; //32-bit general purpose register
     reg [31:0]  rdata1_o;
     reg [31:0]  rdata2_o;
     
