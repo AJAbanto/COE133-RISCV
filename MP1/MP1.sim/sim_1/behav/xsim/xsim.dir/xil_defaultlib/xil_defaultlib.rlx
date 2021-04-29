@@ -6,6 +6,6 @@ Nov 18 2020
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/ALU.v,1618775277,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/control.v,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/def.v,ALU,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/control.v,1618944686,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/processor.v,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/def.v,control,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/def.v,1618774786,verilog,,,,,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/processor.v,1619614663,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/regfile.v,,processor,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/processor.v,1619709345,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/regfile.v,,processor,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/regfile.v,1619615131,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/tb_files/tb.v,,regfile,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/tb_files/tb.v,1619614902,verilog,,,,tb,,,,,,,,

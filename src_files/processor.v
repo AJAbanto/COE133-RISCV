@@ -69,10 +69,13 @@ module processor(
     assign funct3 = inst[14:12];
     assign opcode = inst[6:0];
     
-    //To do:
     //Connect alu to decoded instructions
-    assign rs1 = inst[19:15];
-    assign rs2 = inst[24:20];
+    //Register read address
+    assign reg_rd_addr1 = inst[19:15];
+    assign reg_rd_addr2 = inst[24:20];
+    
+    //valid for I-type and R-type
+    assign reg_wr_addr = inst[11:7];
     
     /////////////////////////////////////////
     
@@ -121,6 +124,7 @@ module processor(
     //Choose source of rs2 (should assert if instruction is Register-Immediate)
     assign rs2 = (ALUsrc)? jalr_imm : reg_rdata2;    //Take if 1 Immidiate in I-type format (which is also the same as the immediate in jalr)
                                                      //else take source from register data
+    assign rs1 = reg_rdata1;                        //Take next operand from register file
     //Instantiation
     ALU a0(
         .Alu_op(ALUOp),
@@ -134,8 +138,7 @@ module processor(
     /////////////////////////////////////////
     
     ////////////////Reg File/////////////////
-    
-    
+
     
     //Instantiation
     regfile r0(

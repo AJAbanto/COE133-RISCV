@@ -1,0 +1,11 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/ALU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/control.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module control
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/processor.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module processor
+INFO: [VRFC 10-2458] undeclared symbol res, assumed default net type wire [/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/processor.v:134]
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/src_files/regfile.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module regfile
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE113-RISCV/tb_files/tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb
