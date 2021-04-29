@@ -23,7 +23,7 @@ module ALU(
     reg zero_o;
     
     //ALU arithmetic
-    always@(rs1 or rs2 or Alu_op) begin
+    always@(*) begin
         case(Alu_op)
             `ALU_add: res_o <= rs1 + rs2;   //Add
             `ALU_sub: res_o <= rs1 - rs2;   //sub

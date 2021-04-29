@@ -21,11 +21,14 @@ module regfile(
     reg [31:0]  rdata2_o;
     
     //connect output registers to the outside
-    assign rdata1 = rdata1_o;
-    assign rdata2 = rdata2_o;
+//    assign rdata1 = rdata1_o;
+//    assign rdata2 = rdata2_o;
+    
+    assign rdata1 = gen_reg[rd_addr1];
+    assign rdata2 = gen_reg[rd_addr2];
     
     always@(posedge clk)begin
-        if(nrst) begin
+        if(!nrst) begin
             //reset all generalpurpose registers
             gen_reg[0] <= 32'b0;
             gen_reg[1] <= 32'b0;
@@ -66,10 +69,7 @@ module regfile(
             //Writing operation
             if(wr_en) gen_reg[wr_addr] <= wrdata;       //write data from input
             else gen_reg[wr_addr] <= gen_reg[wr_addr];  //latch
-            
-            //Reading operation
-            rdata1_o <= gen_reg[rd_addr1];
-            rdata2_o <= gen_reg[rd_addr2];
+           
             
         end
     end

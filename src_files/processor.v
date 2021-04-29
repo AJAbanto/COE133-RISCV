@@ -131,7 +131,7 @@ module processor(
         .rs1(rs1),
         .rs2(rs2),
         .zero(zero),
-        .Alu_res(res)
+        .Alu_res(alu_res)
     );
     
     
@@ -147,7 +147,7 @@ module processor(
         
         .wr_en(reg_wr),
         .wr_addr(reg_wr_addr),
-        .wrdata(reg_wrdata),
+        .wrdata(reg_wrdata_in),
         
         .rd_addr1(reg_rd_addr1),
         .rd_addr2(reg_rd_addr2),
@@ -156,8 +156,9 @@ module processor(
         
     );
     
+    assign reg_wrdata_in = reg_wrdata;
     //Logic for choosing data to write back to register
-    always@(memtoreg or alu_res or rdata or PC)begin
+    always@(*)begin
         case(memtoreg)
             2'b00: reg_wrdata <= alu_res;   //get writeback data from alu
             2'b01: reg_wrdata <= rdata;     //get writeback data from memory module
