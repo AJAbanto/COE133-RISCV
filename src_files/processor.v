@@ -39,7 +39,7 @@ module processor(
     wire [31:0] reg_rdata1;
     wire [31:0] reg_rdata2;
     
-    wire [31:0] reg_wr_addr;
+    wire [4:0] reg_wr_addr;
     
     //for connecting to register that actually stores the data
     wire [31:0] reg_wrdata_in;
@@ -84,19 +84,44 @@ module processor(
     
     //Program Counter logic
     always@(posedge clk)begin
-        if(nrst) PC <= 32'b0;
+        if(!nrst) PC <= 32'b0;
         else begin
             if(jump)begin
-                if(opcode == `JALR) PC <= PC + jalr_imm + reg_rdata1;    //if Jalr, add PC with decoded immediate and read data1 from regfile
-                else PC <= PC + jal_imm;
+                if(opcode == `JALR) begin
+                    //if Jalr, add PC with decoded immediate and address from readdata1 from regfile
+                    //Note: we take into consideration the sign of the immediate
+                    if(jalr_imm[31] == 1'b1) PC <= PC - (~jalr_imm + 1) + reg_rdata1;    
+                    else PC <= PC <= PC + jalr_imm + reg_rdata1;
+                end else begin
+                    
+                    //if Jal, add PC with sign extended offset
+                    //Note: we take into consideration the sign 
+                    if(jal_imm[31] == 1'b1) PC <= PC - (~jal_imm + 1);                                 
+                    else PC <= PC +jal_imm;
+                end
             end
             else begin
-                if(bne && ~zero) PC <= PC + bra_imm;        //If BNE and not zero, branch to PC + offset
-                else if(bra && zero) PC <= PC + bra_imm;    //else if BEQ and zero, branch to PC + offset
-                else PC <= PC + 3'd4;                       //just increment PC if no branch or jump is taken
+                if(bne && ~zero) begin
+                    //If BNE and not zero, branch to PC + offset
+                    //Note: we take into consideration the sign of the immediate
+                    if(bra_imm[31] == 1'b1) PC <= PC - (~bra_imm + 1);
+                    PC <= PC + bra_imm;        
+                    
+                end
+                else if(bra && zero) begin
+                
+                    //else if BEQ and zero, branch to PC + offset
+                    //Note: we take into consideration the sign of the immediate
+                    if(bra_imm[31] == 1'b1) PC <= PC - (~bra_imm + 1);
+                    else PC <= PC + bra_imm;    
+                end
+                else PC <= PC + 3'd4;         //just increment PC if no branch or jump is taken
             end
         end
     end
+    
+    //attach to output
+    assign pc = PC;
     
     /////////////////////////////////////////
     
