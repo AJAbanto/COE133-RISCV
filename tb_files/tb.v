@@ -12,7 +12,10 @@ module tb();
     wire    [63:0]  wdata;
     wire    [7:0]   wmask;
     reg     [31:0]  rdata;
-    reg     [20:0]  jal_immediate;
+    
+    //Branch immediates
+    reg     [20:0]  jal_imm;
+    reg     [12:0]  bra_imm;
     
     //Generate clock 
     always #5 clk = ~clk;
@@ -34,14 +37,16 @@ module tb();
     
     //To Do:
     //-Test Conditional branching
-    //-Integrate Instruction memory
-    //-Integrate memody instructions
+    //-Integrate instruction memory module
+    //-Integrate memory module
+    //-Integrate Load and save instructions
     initial begin
         clk <= 0;
         nrst <= 0;
         inst <= 32'b0;
         rdata <= 32'b0;
-        jal_immediate <= 21'b111111111111111110100; //-12 (negative offset)
+        jal_imm <= 21'b111111111111111110100; //-12 (negative offset)
+        bra_imm <= {{10{1'b1}},3'b100};        //- 2 (negative offset)                    
         #5;
         nrst <= 1;
         #10;
@@ -59,7 +64,15 @@ module tb();
         #10;
         //J-type, jal $1, -12
         //Note: at this point PC + 4 should be equal to 18
-        inst <= {jal_immediate[20],jal_immediate[10:1],jal_immediate[11],jal_immediate[19:12],5'b10,7'b1101111};
+        inst <= {jal_imm[20],jal_imm[10:1],jal_imm[11],jal_imm[19:12],5'b10,7'b1101111};
+        #10;
+        //B-type, beq $1, $0, -4 (branch should be taken)
+        //Note: at this clock cycle PC + 4 should still be equal to 8 but 4 in the next
+        inst <= {bra_imm[12],bra_imm[10:5],5'b00001,5'b00000,3'b000,bra_imm[4:1],bra_imm[11],7'b1100011};
+        #10;
+        //B-type, bne $1, $0, -4 (branch should NOT be taken)
+        //Note: at this clock cycle PC + 4 should still be equal to 4 but 0 in the next
+        inst <= {bra_imm[12],bra_imm[10:5],5'b00001,5'b00000,3'b001,bra_imm[4:1],bra_imm[11],7'b1100011};
         #10;
         //NOP
         inst <= 32'b0;

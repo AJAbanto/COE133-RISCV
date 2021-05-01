@@ -57,7 +57,7 @@ module processor(
     
     assign jal_imm = {{12{inst[31]}},  {inst[31],inst[19:12],inst[20],inst[30:21],1'b0}};   // decodes SB-type format instruction encoding 
     assign jalr_imm = {{20{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding
-    assign bra_imm = {{12{inst[31]}},  {inst[31],inst[19:12],inst[20],inst[30:21],1'b0}};   // decodes SB-type format instruction encoding 
+    assign bra_imm = {{19{inst[31]}},  {inst[31],inst[7],inst[30:25],inst[11:8],1'b0}};     // decodes B-type format instruction encoding 
     
     //Instruction control bits
     wire [6:0] funct7;
