@@ -56,7 +56,6 @@ module tb();
     
     
     //To Do:
-    //-Integrate Load and save instructions
     //-Integrate instruction memory module
     initial begin
         clk <= 0;
