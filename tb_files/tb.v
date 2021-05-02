@@ -64,8 +64,8 @@ module tb();
         inst <= 32'b0;
         jal_imm <= 21'b111111111111111110100;   // -12 (negative offset)
         bra_imm <= {{10{1'b1}},3'b100};         // -2 (negative offset)    
-        sd_imm  <= 12'b100000;                  // 4 (positive offset) (note that this accessses 4 memory slots from the base address
-                                                // since last 3 bits of the offset are ignored
+        sd_imm  <= 12'b100000;                  // 4 (positive offset) (note that this accesses data 4 memory  slots offsets from the base address
+                                                // since last 3 bits of the offset are actually ignored
         #5;
         nrst <= 1;
         #10;
@@ -93,16 +93,16 @@ module tb();
         //Note: at this clock cycle PC + 4 should still be equal to 4 but 0 in the next
         inst <= {bra_imm[12],bra_imm[10:5],5'b00001,5'b00000,3'b001,bra_imm[4:1],bra_imm[11],7'b1100011};
         #10;
-        //I-type, ld $3, $0, 0 (load contents of 0x0 + 0 into $3)
+        //I-type, ld $3, 0($0) (load contents of (0x0 + 0) into $3)
         inst <= 32'b000000000000_00000_011_00011_0000011; 
         #10;
-        //I-type, ld $3, 1($0) (load contents of 0x0 + 1 into $3)
+        //I-type, ld $3, 1($0) (load contents of (0x0 + 1) into $3)
         inst <= 32'b000000001000_00000_011_00011_0000011; 
         #10;
         //I-type, ld $3, 2($0) (load contents of (0x0 + 2) into $3)
         inst <= 32'b000000010000_00000_011_00011_0000011; 
         #10;
-        //S-type, sd $3, 4($0) (save contents of $3 into (0x0 + 3))
+        //S-type, sd $3, 4($0) (save contents of $3 into (0x0 + 4))
         inst <= {sd_imm[11:5],5'b11,5'b0 , 3'b011, sd_imm[4:0],7'b0100011};
         #10;
         //NOP
