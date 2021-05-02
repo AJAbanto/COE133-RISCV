@@ -21,6 +21,10 @@ module tb();
     reg     [20:0]  jal_imm;
     reg     [12:0]  bra_imm;
     
+    //Load/store immediates
+    reg     [11:0]  sd_imm;
+    reg     [11:0]  ld_imm;
+    
     //Generate clock 
     always #5 clk = ~clk;
     
@@ -43,7 +47,7 @@ module tb();
     mem_model #(MEM_DATA_DEPTH,MEM_DATA_ADDR_WIDE) 
         data_mem(
         .clk(clk),
-        .addr(addr),
+        .addr(addr[31:3]),
         .rdata(rdata),
         .wr_en(wr_en),
         .wdata(wdata),
@@ -52,15 +56,16 @@ module tb();
     
     
     //To Do:
-    //-Integrate instruction memory module
-    //-Integrate memory module
     //-Integrate Load and save instructions
+    //-Integrate instruction memory module
     initial begin
         clk <= 0;
         nrst <= 0;
         inst <= 32'b0;
-        jal_imm <= 21'b111111111111111110100; //-12 (negative offset)
-        bra_imm <= {{10{1'b1}},3'b100};        //- 2 (negative offset)                    
+        jal_imm <= 21'b111111111111111110100;   // -12 (negative offset)
+        bra_imm <= {{10{1'b1}},3'b100};         // -2 (negative offset)    
+        sd_imm  <= 12'b100000;                  // 4 (positive offset) (note that this accessses 4 memory slots from the base address
+                                                // since last 3 bits of the offset are ignored
         #5;
         nrst <= 1;
         #10;
@@ -87,6 +92,18 @@ module tb();
         //B-type, bne $1, $0, -4 (branch should NOT be taken)
         //Note: at this clock cycle PC + 4 should still be equal to 4 but 0 in the next
         inst <= {bra_imm[12],bra_imm[10:5],5'b00001,5'b00000,3'b001,bra_imm[4:1],bra_imm[11],7'b1100011};
+        #10;
+        //I-type, ld $3, $0, 0 (load contents of 0x0 + 0 into $3)
+        inst <= 32'b000000000000_00000_011_00011_0000011; 
+        #10;
+        //I-type, ld $3, 1($0) (load contents of 0x0 + 1 into $3)
+        inst <= 32'b000000001000_00000_011_00011_0000011; 
+        #10;
+        //I-type, ld $3, 2($0) (load contents of (0x0 + 2) into $3)
+        inst <= 32'b000000010000_00000_011_00011_0000011; 
+        #10;
+        //S-type, sd $3, 4($0) (save contents of $3 into (0x0 + 3))
+        inst <= {sd_imm[11:5],5'b11,5'b0 , 3'b011, sd_imm[4:0],7'b0100011};
         #10;
         //NOP
         inst <= 32'b0;

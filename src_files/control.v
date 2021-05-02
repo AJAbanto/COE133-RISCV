@@ -14,6 +14,7 @@ module control(
     output bra,
     output reg_wr,
     output reg_dst,
+    output sd,
     output jump
     );
     
@@ -27,6 +28,7 @@ module control(
     reg bra_o;
     reg reg_wr_o;
     reg reg_dst_o;
+    reg sd_o;
     reg jump_o;
     
     //Connection to outputs
@@ -38,7 +40,8 @@ module control(
     assign bra      = bra_o;
     assign reg_wr   = reg_wr_o;
     assign reg_dst  = reg_dst_o;
-    assign jump      = jump_o;
+    assign sd       = sd_o; 
+    assign jump     = jump_o;
     
     //Instruction control bits
     wire [6:0] funct7;
@@ -64,7 +67,9 @@ module control(
                 bra_o       <= 0;
                 reg_wr_o    <= 1;       //enable regwrite 
                 reg_dst_o   <= 0;
-                jump_o       <= 0;
+                sd_o        <= 0;
+                jump_o      <= 0;
+                
                 
                 //Choosing ALU Opcode
                 case(funct3)
@@ -82,14 +87,15 @@ module control(
             
             //Reg-immediate operation
             `ADDI: begin
-                ALUsrc_o    <= 1;       //set rs2 of ALU to be from immediate
+                ALUsrc_o    <= 1;           //  set rs2 of ALU to be from immediate
                 ALUOp_o     <= `ALU_addi;
-                memtoreg_o  <= 2'b0;    //store ALU result to register
+                memtoreg_o  <= 2'b00;       //  store ALU result to register
                 mem_wr_o    <= 0;
                 bne_o       <= 0;
                 bra_o       <= 0;
-                reg_wr_o    <= 1;       //enable regwrite 
+                reg_wr_o    <= 1;           //  enable regwrite 
                 reg_dst_o   <= 0;
+                sd_o        <= 0;
                 jump_o      <= 0;
             end
             
@@ -98,9 +104,10 @@ module control(
                 ALUsrc_o    <= 0;   
                 memtoreg_o  <= 2'b00;
                 mem_wr_o    <= 0;
-                bra_o       <= 1;       //flag branch instruction
-                reg_wr_o    <= 0;       //enable regwrite 
+                bra_o       <= 1;           //  flag branch instruction
+                reg_wr_o    <= 0;           // deassert regwrite 
                 reg_dst_o   <= 0;
+                sd_o        <= 0;
                 jump_o      <= 0;
                 
                 //if bne instruction then assert bne flag
@@ -111,61 +118,68 @@ module control(
             //Unconditional Jump operation
             `JAL: begin
                 ALUsrc_o    <= 0;   
-                memtoreg_o  <= 2'b10;   //store (PC+4) to rd
+                memtoreg_o  <= 2'b10;       //  store (PC+4) to rd
                 mem_wr_o    <= 0;
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 1;       //enable regwrite to store (PC+4) 
+                reg_wr_o    <= 1;           //  enable regwrite to store (PC+4) 
                 reg_dst_o   <= 0;
-                jump_o      <= 1;       //flag JAL instruction
+                sd_o        <= 0;
+                jump_o      <= 1;           //  flag JAL instruction
             end
             
             
             //Unconditional Jump using immediate + offset operation
             `JALR: begin
-                ALUsrc_o    <= 1;       //  Immediate as rs2 source for ALU   
-                memtoreg_o  <= 2'b10;   //  store(PC+4) into rd
+                ALUsrc_o    <= 1;           //  Immediate as rs2 source for ALU   
+                memtoreg_o  <= 2'b10;       //  store(PC+4) into rd
                 mem_wr_o    <= 0;
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 1;       //enable regwrite to store (PC+4) 
+                reg_wr_o    <= 1;           //  enable regwrite to store (PC+4) 
                 reg_dst_o   <= 0;
-                jump_o      <= 1;       //flag JAL instruction
+                sd_o        <= 0;
+                jump_o      <= 1;           //  flag JAL instruction
             end
             
             //Load word from memory module
             `LOAD: begin
-                ALUsrc_o    <= 1;       //  Immediate as rs2 source for ALU   
-                memtoreg_o  <= 2'b01;   //  store memdata to register
+                ALUsrc_o    <= 1;           //  Immediate as rs2 source for ALU   
+                ALUOp_o     <= `ALU_addi;   //  since we are getting the memory address from rs1 + imm
+                memtoreg_o  <= 2'b01;       //  store memdata to register
                 mem_wr_o    <= 0;
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 1;       //  enable regwrite to store load data
+                reg_wr_o    <= 1;           //  enable regwrite to store loaded data from memory
                 reg_dst_o   <= 0;
+                sd_o        <= 0;           //  do NOT assert store word flag
                 jump_o      <= 0;       
             end
             
             //store word in memory module
             `STORE: begin
-                ALUsrc_o    <= 1;       //  Immediate as rs2 source for ALU   
-                memtoreg_o  <= 2'b00;   //  store memdata to register
-                mem_wr_o    <= 1;       //  write to memory
+                ALUsrc_o    <= 1;           //  Immediate as rs2 source for ALU
+                ALUOp_o     <= `ALU_addi;   //  since we are getting the memory address from rs1 + imm
+                memtoreg_o  <= 2'b00;       //  actually a dont care
+                mem_wr_o    <= 1;           //  write to memory
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 0;       //  disable regwrite
+                reg_wr_o    <= 0;           //  disable regwrite
                 reg_dst_o   <= 0;
+                sd_o        <= 1;           //  actually flag the store word instruction
                 jump_o      <= 0;       
             end
             
             //deassert all signals by default
             default: begin
-                ALUsrc_o    <= 0;       //  regfile as source
-                memtoreg_o  <= 2'b00;   //  alu as register writedata
+                ALUsrc_o    <= 0;           //  regfile as source
+                memtoreg_o  <= 2'b00;       //  alu as register writedata
                 mem_wr_o    <= 0;     
                 bra_o       <= 0;
                 bne_o       <= 0;   
-                reg_wr_o    <= 0;       //  disable regwrite
+                reg_wr_o    <= 0;           //  disable regwrite
                 reg_dst_o   <= 0;
+                sd_o        <= 0;
                 jump_o      <= 0;       
             end
             

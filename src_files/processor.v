@@ -12,7 +12,7 @@ module processor(
     input   [63:0]  rdata
     );
     
-    //////////////////WIRES//////////////////
+    ///////////////WIRES AND REGISTERS///////////////
     //Control signal wires
     wire        ALUsrc;
     wire [2:0]  ALUOp;
@@ -21,6 +21,7 @@ module processor(
     wire        bra;
     wire        reg_wr;
     wire        reg_dst;
+    wire        sd;
     wire        jump;
     
     //ALU wires
@@ -45,6 +46,11 @@ module processor(
     wire [63:0] reg_wrdata_in;
     reg  [63:0] reg_wrdata;
     
+    
+    //Data memory wires and registers
+    reg  [31:0] addr_o;
+    
+    
     /////////////////////////////////////////
     
     
@@ -58,10 +64,14 @@ module processor(
     //Immediate decoding for Register-immediate instructions
     wire    [63:0]  addi_imm;    //decoded and sign-extended immediate for Register-Immediate arithmetic
     
-    assign jal_imm = {{12{inst[31]}},  {inst[31],inst[19:12],inst[20],inst[30:21],1'b0}};   // decodes SB-type format instruction encoding 
+    //Immediate dedcoding for Store word instructions
+    wire    [31:0]  sd_imm;     //decoded and sign-extended immediate for SD instruction (in calculating address)
+    
+    assign jal_imm  = {{12{inst[31]}},  {inst[31],inst[19:12],inst[20],inst[30:21],1'b0}};  // decodes SB-type format instruction encoding 
     assign jalr_imm = {{20{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding
-    assign bra_imm = {{19{inst[31]}},  {inst[31],inst[7],inst[30:25],inst[11:8],1'b0}};     // decodes B-type format instruction encoding
+    assign bra_imm  = {{19{inst[31]}},  {inst[31],inst[7],inst[30:25],inst[11:8],1'b0}};    // decodes B-type format instruction encoding
     assign addi_imm = {{52{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding 
+    assign sd_imm   = {{12{inst[31]}},{inst[31:25],inst[11:7]} };                           // decodes S-type format instruction encoding
     
     //Instruction control bits
     wire [6:0] funct7;
@@ -143,6 +153,7 @@ module processor(
         .bra(bra),
         .reg_wr(reg_wr),
         .reg_dst(reg_dst),
+        .sd(sd),
         .jump(jump)
     );
     
@@ -150,8 +161,8 @@ module processor(
     
     //////////////////ALU////////////////////
     
-    //Choose source of rs2 (should assert if instruction is Register-Immediate)
-    assign rs2 = (ALUsrc)? addi_imm : reg_rdata2;    //Take if 1 Immidiate in I-type format
+    //Choose source of rs2 (should assert if instruction is Register-Immediate or Load/store operation)
+    assign rs2 = (ALUsrc)? ((sd)? sd_imm: addi_imm) : reg_rdata2;    //Take if 1 Immidiate in I-type/S-type format
                                                      //else take source from register data
     assign rs1 = reg_rdata1;                        //Take next operand from register file
     //Instantiation
@@ -198,6 +209,16 @@ module processor(
     /////////////////////////////////////////
     
     //////////////Data memory////////////////
+    
+    //Assign default mask (allow all bytes to be written to for now)
+    assign wmask = 8'b11111111;
+
+    //Load and store operations (address comes from rs1 + imm)
+    assign addr = alu_res[31:0];
+
+    //connect rs2 as source register for storeword instruction
+    assign wdata = reg_rdata2;
+    
     
     /////////////////////////////////////////
 endmodule
