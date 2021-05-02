@@ -83,7 +83,7 @@ module control(
             //Reg-immediate operation
             `ADDI: begin
                 ALUsrc_o    <= 1;       //set rs2 of ALU to be from immediate
-                ALUOp_o     <= `ALU_add;
+                ALUOp_o     <= `ALU_addi;
                 memtoreg_o  <= 2'b0;    //store ALU result to register
                 mem_wr_o    <= 0;
                 bne_o       <= 0;

@@ -11,7 +11,11 @@ module tb();
     wire            wr_en;
     wire    [63:0]  wdata;
     wire    [7:0]   wmask;
-    reg     [31:0]  rdata;
+    wire    [63:0]  rdata;
+    
+    //data memory module parameters
+    parameter       MEM_DATA_DEPTH      = 512;
+    parameter       MEM_DATA_ADDR_WIDE  = 29;
     
     //Branch immediates
     reg     [20:0]  jal_imm;
@@ -21,7 +25,7 @@ module tb();
     always #5 clk = ~clk;
     
     
-    //Instantiating
+    //Instantiating processor module
     processor UUT(
         .clk(clk),
         .nrst(nrst),
@@ -35,8 +39,19 @@ module tb();
     );
     
     
+    //Instatiating data memory module
+    mem_model #(MEM_DATA_DEPTH,MEM_DATA_ADDR_WIDE) 
+        data_mem(
+        .clk(clk),
+        .addr(addr),
+        .rdata(rdata),
+        .wr_en(wr_en),
+        .wdata(wdata),
+        .wmask(wmask)
+    );
+    
+    
     //To Do:
-    //-Test Conditional branching
     //-Integrate instruction memory module
     //-Integrate memory module
     //-Integrate Load and save instructions
@@ -44,17 +59,16 @@ module tb();
         clk <= 0;
         nrst <= 0;
         inst <= 32'b0;
-        rdata <= 32'b0;
         jal_imm <= 21'b111111111111111110100; //-12 (negative offset)
         bra_imm <= {{10{1'b1}},3'b100};        //- 2 (negative offset)                    
         #5;
         nrst <= 1;
         #10;
-        //I-type, addi $1,1
-        inst <= 32'b000000000001_00001_000_00001_0010011; 
+        //I-type, addi $1,3
+        inst <= 32'b000000000011_00001_000_00001_0010011; 
         #10;
-        //I-type, addi $1,2
-        inst <= 32'b000000000010_00001_000_00001_0010011; 
+        //I-type, addi $1,-1
+        inst <= 32'b111111111111_00001_000_00001_0010011; 
         #10;
         //R-type , add $1, $1 , $1
         inst <= 32'b0000000_00001_00001_000_00001_0110011;

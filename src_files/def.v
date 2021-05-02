@@ -45,4 +45,5 @@
 `define ALU_or      3'b011
 `define ALU_xor     3'b100
 `define ALU_slt     3'b101
+`define ALU_addi    3'b110
 ///////////////////////////////////

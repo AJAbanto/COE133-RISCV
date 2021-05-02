@@ -12,12 +12,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="92801fs"></ZoomEndTime>
-      <Cursor1Time time="75000fs"></Cursor1Time>
+      <ZoomEndTime time="58901fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="170"></NameColumnWidth>
-      <ValueColumnWidth column_width="74"></ValueColumnWidth>
+      <ValueColumnWidth column_width="70"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="16" />
    <wvobject type="logic" fp_name="/tb/clk">
@@ -54,25 +54,31 @@
       <obj_property name="ObjectShortName">wmask[7:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/tb/rdata">
-      <obj_property name="ElementShortName">rdata[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rdata[31:0]</obj_property>
+      <obj_property name="ElementShortName">rdata[63:0]</obj_property>
+      <obj_property name="ObjectShortName">rdata[63:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/tb/UUT/r0/gen_reg[1]">
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">[1][31:0]</obj_property>
-      <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+      <obj_property name="ElementShortName">[1][63:0]</obj_property>
+      <obj_property name="ObjectShortName">[1][63:0]</obj_property>
       <obj_property name="label">$1</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/tb/UUT/r0/gen_reg[2]">
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">[2][31:0]</obj_property>
-      <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      <obj_property name="ElementShortName">[2][63:0]</obj_property>
+      <obj_property name="ObjectShortName">[2][63:0]</obj_property>
       <obj_property name="label">$2</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="group" fp_name="group57">
       <obj_property name="label">Immediates</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/tb/UUT/addi_imm">
+         <obj_property name="ElementShortName">addi_imm[63:0]</obj_property>
+         <obj_property name="ObjectShortName">addi_imm[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/jal_imm">
          <obj_property name="ElementShortName">jal_imm[31:0]</obj_property>
          <obj_property name="ObjectShortName">jal_imm[31:0]</obj_property>
@@ -97,24 +103,27 @@
          <obj_property name="ObjectShortName">Alu_op[2:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/a0/rs1">
-         <obj_property name="ElementShortName">rs1[31:0]</obj_property>
-         <obj_property name="ObjectShortName">rs1[31:0]</obj_property>
+         <obj_property name="ElementShortName">rs1[63:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/a0/rs2">
-         <obj_property name="ElementShortName">rs2[31:0]</obj_property>
-         <obj_property name="ObjectShortName">rs2[31:0]</obj_property>
+         <obj_property name="ElementShortName">rs2[63:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/UUT/a0/res_o">
+         <obj_property name="ElementShortName">res_o[63:0]</obj_property>
+         <obj_property name="ObjectShortName">res_o[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/tb/UUT/a0/zero">
          <obj_property name="ElementShortName">zero</obj_property>
          <obj_property name="ObjectShortName">zero</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/a0/Alu_res">
-         <obj_property name="ElementShortName">Alu_res[31:0]</obj_property>
-         <obj_property name="ObjectShortName">Alu_res[31:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb/UUT/a0/res_o">
-         <obj_property name="ElementShortName">res_o[31:0]</obj_property>
-         <obj_property name="ObjectShortName">res_o[31:0]</obj_property>
+         <obj_property name="ElementShortName">Alu_res[63:0]</obj_property>
+         <obj_property name="ObjectShortName">Alu_res[63:0]</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/tb/UUT/a0/zero_o">
          <obj_property name="ElementShortName">zero_o</obj_property>
@@ -124,7 +133,6 @@
    <wvobject type="group" fp_name="group174">
       <obj_property name="label">Control signals</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/tb/UUT/c0/instr">
          <obj_property name="ElementShortName">instr[31:0]</obj_property>
          <obj_property name="ObjectShortName">instr[31:0]</obj_property>
@@ -218,12 +226,8 @@
          <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="array" fp_name="/tb/UUT/reg_wrdata_in">
-      <obj_property name="ElementShortName">reg_wrdata_in[31:0]</obj_property>
-      <obj_property name="ObjectShortName">reg_wrdata_in[31:0]</obj_property>
-   </wvobject>
    <wvobject type="group" fp_name="group189">
-      <obj_property name="label">RegFile</obj_property>
+      <obj_property name="label">Register File</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <wvobject type="array" fp_name="/tb/UUT/r0/rd_addr1">
          <obj_property name="ElementShortName">rd_addr1[4:0]</obj_property>
@@ -234,29 +238,70 @@
          <obj_property name="ObjectShortName">rd_addr2[4:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/r0/rdata1">
-         <obj_property name="ElementShortName">rdata1[31:0]</obj_property>
-         <obj_property name="ObjectShortName">rdata1[31:0]</obj_property>
+         <obj_property name="ElementShortName">rdata1[63:0]</obj_property>
+         <obj_property name="ObjectShortName">rdata1[63:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/r0/rdata2">
-         <obj_property name="ElementShortName">rdata2[31:0]</obj_property>
-         <obj_property name="ObjectShortName">rdata2[31:0]</obj_property>
+         <obj_property name="ElementShortName">rdata2[63:0]</obj_property>
+         <obj_property name="ObjectShortName">rdata2[63:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/r0/wr_addr">
          <obj_property name="ElementShortName">wr_addr[4:0]</obj_property>
          <obj_property name="ObjectShortName">wr_addr[4:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/r0/wrdata">
-         <obj_property name="ElementShortName">wrdata[31:0]</obj_property>
-         <obj_property name="ObjectShortName">wrdata[31:0]</obj_property>
+         <obj_property name="ElementShortName">wrdata[63:0]</obj_property>
+         <obj_property name="ObjectShortName">wrdata[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/tb/UUT/r0/wr_en">
          <obj_property name="ElementShortName">wr_en</obj_property>
          <obj_property name="ObjectShortName">wr_en</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb/UUT/r0/gen_reg">
-         <obj_property name="ElementShortName">gen_reg[31:0][31:0]</obj_property>
-         <obj_property name="ObjectShortName">gen_reg[31:0][31:0]</obj_property>
+         <obj_property name="ElementShortName">gen_reg[31:0][63:0]</obj_property>
+         <obj_property name="ObjectShortName">gen_reg[31:0][63:0]</obj_property>
          <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group100">
+      <obj_property name="label">Data Memory</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/tb/data_mem/clk">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/addr">
+         <obj_property name="ElementShortName">addr[28:0]</obj_property>
+         <obj_property name="ObjectShortName">addr[28:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/rdata">
+         <obj_property name="ElementShortName">rdata[63:0]</obj_property>
+         <obj_property name="ObjectShortName">rdata[63:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb/data_mem/wr_en">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/wdata">
+         <obj_property name="ElementShortName">wdata[63:0]</obj_property>
+         <obj_property name="ObjectShortName">wdata[63:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/wmask">
+         <obj_property name="ElementShortName">wmask[7:0]</obj_property>
+         <obj_property name="ObjectShortName">wmask[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/memdata">
+         <obj_property name="ElementShortName">memdata[0:511][63:0]</obj_property>
+         <obj_property name="ObjectShortName">memdata[0:511][63:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/DATA_DEP">
+         <obj_property name="ElementShortName">DATA_DEP[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_DEP[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb/data_mem/ADDR_WID">
+         <obj_property name="ElementShortName">ADDR_WID[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADDR_WID[31:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

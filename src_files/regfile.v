@@ -7,22 +7,16 @@ module regfile(
     //read 
     input   [4:0]   rd_addr1,
     input   [4:0]   rd_addr2,
-    output  [31:0]  rdata1,
-    output  [31:0]  rdata2,
+    output  [63:0]  rdata1,
+    output  [63:0]  rdata2,
     
     //write
     input   [4:0]   wr_addr,
-    input   [31:0]  wrdata, 
+    input   [63:0]  wrdata, 
     input           wr_en
     
     );
-    reg [31:0]  gen_reg[31:0]; //32-bit general purpose register
-    reg [31:0]  rdata1_o;
-    reg [31:0]  rdata2_o;
-    
-    //connect output registers to the outside
-//    assign rdata1 = rdata1_o;
-//    assign rdata2 = rdata2_o;
+    reg [63:0]  gen_reg[31:0]; //32-bit general purpose register
     
     assign rdata1 = gen_reg[rd_addr1];
     assign rdata2 = gen_reg[rd_addr2];
@@ -30,38 +24,38 @@ module regfile(
     always@(posedge clk)begin
         if(!nrst) begin
             //reset all generalpurpose registers
-            gen_reg[0] <= 32'b0;
-            gen_reg[1] <= 32'b0;
-            gen_reg[2] <= 32'b0;
-            gen_reg[3] <= 32'b0;
-            gen_reg[4] <= 32'b0;
-            gen_reg[5] <= 32'b0;
-            gen_reg[6] <= 32'b0;
-            gen_reg[7] <= 32'b0;
-            gen_reg[8] <= 32'b0;
-            gen_reg[9] <= 32'b0;
-            gen_reg[10] <= 32'b0;
-            gen_reg[11] <= 32'b0;
-            gen_reg[12] <= 32'b0;
-            gen_reg[13] <= 32'b0;
-            gen_reg[14] <= 32'b0;
-            gen_reg[15] <= 32'b0;
-            gen_reg[16] <= 32'b0;
-            gen_reg[17] <= 32'b0;
-            gen_reg[18] <= 32'b0;
-            gen_reg[19] <= 32'b0;
-            gen_reg[20] <= 32'b0;
-            gen_reg[21] <= 32'b0;
-            gen_reg[22] <= 32'b0;
-            gen_reg[23] <= 32'b0;
-            gen_reg[24] <= 32'b0;
-            gen_reg[25] <= 32'b0;
-            gen_reg[26] <= 32'b0;
-            gen_reg[27] <= 32'b0;
-            gen_reg[28] <= 32'b0;
-            gen_reg[29] <= 32'b0;
-            gen_reg[30] <= 32'b0;
-            gen_reg[31] <= 32'b0;
+            gen_reg[0] <= 64'b0;
+            gen_reg[1] <= 64'b0;
+            gen_reg[2] <= 64'b0;
+            gen_reg[3] <= 64'b0;
+            gen_reg[4] <= 64'b0;
+            gen_reg[5] <= 64'b0;
+            gen_reg[6] <= 64'b0;
+            gen_reg[7] <= 64'b0;
+            gen_reg[8] <= 64'b0;
+            gen_reg[9] <= 64'b0;
+            gen_reg[10] <= 64'b0;
+            gen_reg[11] <= 64'b0;
+            gen_reg[12] <= 64'b0;
+            gen_reg[13] <= 64'b0;
+            gen_reg[14] <= 64'b0;
+            gen_reg[15] <= 64'b0;
+            gen_reg[16] <= 64'b0;
+            gen_reg[17] <= 64'b0;
+            gen_reg[18] <= 64'b0;
+            gen_reg[19] <= 64'b0;
+            gen_reg[20] <= 64'b0;
+            gen_reg[21] <= 64'b0;
+            gen_reg[22] <= 64'b0;
+            gen_reg[23] <= 64'b0;
+            gen_reg[24] <= 64'b0;
+            gen_reg[25] <= 64'b0;
+            gen_reg[26] <= 64'b0;
+            gen_reg[27] <= 64'b0;
+            gen_reg[28] <= 64'b0;
+            gen_reg[29] <= 64'b0;
+            gen_reg[30] <= 64'b0;
+            gen_reg[31] <= 64'b0;
             
         end
         else begin

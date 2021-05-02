@@ -9,7 +9,7 @@ module processor(
     output          wr_en,
     output  [63:0]  wdata,
     output  [7:0]   wmask,
-    input   [31:0]  rdata
+    input   [63:0]  rdata
     );
     
     //////////////////WIRES//////////////////
@@ -24,10 +24,10 @@ module processor(
     wire        jump;
     
     //ALU wires
-    wire [31:0] rs1;
-    wire [31:0] rs2;
+    wire [63:0] rs1;
+    wire [63:0] rs2;
     
-    wire [31:0] alu_res;
+    wire [63:0] alu_res;
     wire        zero;
     
     //PC wires
@@ -36,14 +36,14 @@ module processor(
     //Regfile wires
     wire [4:0]  reg_rd_addr1;
     wire [4:0]  reg_rd_addr2;
-    wire [31:0] reg_rdata1;
-    wire [31:0] reg_rdata2;
+    wire [63:0] reg_rdata1;
+    wire [63:0] reg_rdata2;
     
     wire [4:0] reg_wr_addr;
     
     //for connecting to register that actually stores the data
-    wire [31:0] reg_wrdata_in;
-    reg  [31:0] reg_wrdata;
+    wire [63:0] reg_wrdata_in;
+    reg  [63:0] reg_wrdata;
     
     /////////////////////////////////////////
     
@@ -55,9 +55,13 @@ module processor(
     wire    [31:0]  jalr_imm;    //decoded and sign-extended immediate for jalr
     wire    [31:0]  bra_imm;     //decoded and sign-extended immediate for branch
     
+    //Immediate decoding for Register-immediate instructions
+    wire    [63:0]  addi_imm;    //decoded and sign-extended immediate for Register-Immediate arithmetic
+    
     assign jal_imm = {{12{inst[31]}},  {inst[31],inst[19:12],inst[20],inst[30:21],1'b0}};   // decodes SB-type format instruction encoding 
     assign jalr_imm = {{20{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding
-    assign bra_imm = {{19{inst[31]}},  {inst[31],inst[7],inst[30:25],inst[11:8],1'b0}};     // decodes B-type format instruction encoding 
+    assign bra_imm = {{19{inst[31]}},  {inst[31],inst[7],inst[30:25],inst[11:8],1'b0}};     // decodes B-type format instruction encoding
+    assign addi_imm = {{52{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding 
     
     //Instruction control bits
     wire [6:0] funct7;
@@ -147,7 +151,7 @@ module processor(
     //////////////////ALU////////////////////
     
     //Choose source of rs2 (should assert if instruction is Register-Immediate)
-    assign rs2 = (ALUsrc)? jalr_imm : reg_rdata2;    //Take if 1 Immidiate in I-type format (which is also the same as the immediate in jalr)
+    assign rs2 = (ALUsrc)? addi_imm : reg_rdata2;    //Take if 1 Immidiate in I-type format
                                                      //else take source from register data
     assign rs1 = reg_rdata1;                        //Take next operand from register file
     //Instantiation
@@ -190,6 +194,10 @@ module processor(
             2'b10: reg_wrdata <= PC + 3'd4; //get writeback data from (PC + 4) 
         endcase
     end
+    
+    /////////////////////////////////////////
+    
+    //////////////Data memory////////////////
     
     /////////////////////////////////////////
 endmodule

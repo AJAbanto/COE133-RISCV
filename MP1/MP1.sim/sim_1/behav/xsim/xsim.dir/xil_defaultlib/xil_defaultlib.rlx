@@ -2,10 +2,11 @@
 2020.2
 Nov 18 2020
 09:20:35
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/MP1/MP1.sim/sim_1/behav/xsim/glbl.v,1619887062,verilog,,,,glbl,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/ALU.v,1619887062,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/control.v,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/def.v,ALU,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/control.v,1619887062,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/processor.v,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/def.v,control,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/def.v,1619887062,verilog,,,,,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/processor.v,1619892839,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/regfile.v,,processor,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/src_files/regfile.v,1619887062,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/tb_files/tb.v,,regfile,,,,,,,,
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/COE133-RISCV/tb_files/tb.v,1619893674,verilog,,,,tb,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/glbl.v,1619936212,verilog,,,,glbl,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_model.v,1619936212,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/processor.v,,mem_model,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/ALU.v,1619943377,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/control.v,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/def.v,ALU,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/control.v,1619941165,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_model.v,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/def.v,control,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/def.v,1619941136,verilog,,,,,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/processor.v,1619941710,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/regfile.v,,processor,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/regfile.v,1619939958,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/tb_files/tb.v,,regfile,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/tb_files/tb.v,1619943411,verilog,,,,tb,,,,,,,,

@@ -2,6 +2,7 @@
 verilog xil_defaultlib  \
 "../../../../../src_files/ALU.v" \
 "../../../../../src_files/control.v" \
+"../../../../../provided_files/memory_model/mem_model.v" \
 "../../../../../src_files/processor.v" \
 "../../../../../src_files/regfile.v" \
 "../../../../../tb_files/tb.v" \
