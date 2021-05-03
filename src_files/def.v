@@ -20,13 +20,13 @@
 `define SLT             3'b010
 //------Conditional Jump-------
 `define BNE             3'b001
-//---------Load word----------
+//---------Load from mem----------
 `define LD              3'b011
 `define LW              3'b010
 `define LWU             3'b110
 `define LH              3'b001
 `define LHU             3'b101
-//---------Store word----------
+//---------Store to mem----------
 `define SD              3'b011
 `define SW              3'b010
 `define SH              3'b001

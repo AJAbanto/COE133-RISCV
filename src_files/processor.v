@@ -154,6 +154,7 @@ module processor(
         .reg_wr(reg_wr),
         .reg_dst(reg_dst),
         .sd(sd),
+        .wmask(wmask),
         .jump(jump)
     );
     
@@ -201,7 +202,19 @@ module processor(
     always@(*)begin
         case(memtoreg)
             2'b00: reg_wrdata <= alu_res;   //get writeback data from alu
-            2'b01: reg_wrdata <= rdata;     //get writeback data from memory module
+            
+            /////////////////Write back data from Data mem///////////////
+            2'b01:begin
+                case(funct3)
+                    `LD:    reg_wrdata <= rdata;                            //get all 64-bits (double word)
+                    `LW:    reg_wrdata <= {{32{rdata[31]}},rdata[31:0]};    //get only 32-bits and sign extend the rest
+                    `LH:    reg_wrdata <= {{48{rdata[15]}},rdata[15:0]};    //get only 16-bits and sign extend the rest
+                    `LWU:   reg_wrdata <= {32'b0,rdata[31:0]};              //get only 32-bits and pad 0 the rest
+                    `LHU:   reg_wrdata <= {48'b0,rdata[15:0]};              //get only 16-bits and pad 0 the rest
+                endcase
+            end
+            ////////////////////////////////////////////////////////////
+            
             2'b10: reg_wrdata <= PC + 3'd4; //get writeback data from (PC + 4) 
         endcase
     end
@@ -210,8 +223,8 @@ module processor(
     
     //////////////Data memory////////////////
     
-    //Assign default mask (allow all bytes to be written to for now)
-    assign wmask = 8'b11111111;
+//    //Assign default mask (allow all bytes to be written to for now)
+//    assign wmask = 8'b11111111;
 
     //Load and store operations (address comes from rs1 + imm)
     assign addr = alu_res[31:0];

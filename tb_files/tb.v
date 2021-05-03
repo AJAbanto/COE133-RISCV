@@ -56,7 +56,11 @@ module tb();
     
     
     //To Do:
+    //-Test slt
+    //-Integrate sw,sh, lw,lh,lwu,lhu
+    //-Test sw,sh,lw,lh,lwu,lhu
     //-Integrate instruction memory module
+    
     initial begin
         clk <= 0;
         nrst <= 0;

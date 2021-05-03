@@ -15,6 +15,7 @@ module control(
     output reg_wr,
     output reg_dst,
     output sd,
+    output [7:0] wmask,
     output jump
     );
     
@@ -29,6 +30,7 @@ module control(
     reg reg_wr_o;
     reg reg_dst_o;
     reg sd_o;
+    reg [7:0] wmask_o;
     reg jump_o;
     
     //Connection to outputs
@@ -41,6 +43,7 @@ module control(
     assign reg_wr   = reg_wr_o;
     assign reg_dst  = reg_dst_o;
     assign sd       = sd_o; 
+    assign wmask    = wmask_o;
     assign jump     = jump_o;
     
     //Instruction control bits
@@ -68,6 +71,7 @@ module control(
                 reg_wr_o    <= 1;       //enable regwrite 
                 reg_dst_o   <= 0;
                 sd_o        <= 0;
+                wmask_o     <= 8'b00000000;
                 jump_o      <= 0;
                 
                 
@@ -96,6 +100,7 @@ module control(
                 reg_wr_o    <= 1;           //  enable regwrite 
                 reg_dst_o   <= 0;
                 sd_o        <= 0;
+                wmask_o     <= 8'b00000000;
                 jump_o      <= 0;
             end
             
@@ -108,6 +113,7 @@ module control(
                 reg_wr_o    <= 0;           // deassert regwrite 
                 reg_dst_o   <= 0;
                 sd_o        <= 0;
+                wmask_o     <= 8'b00000000;
                 jump_o      <= 0;
                 
                 //if bne instruction then assert bne flag
@@ -125,6 +131,7 @@ module control(
                 reg_wr_o    <= 1;           //  enable regwrite to store (PC+4) 
                 reg_dst_o   <= 0;
                 sd_o        <= 0;
+                wmask_o     <= 8'b00000000;
                 jump_o      <= 1;           //  flag JAL instruction
             end
             
@@ -139,10 +146,11 @@ module control(
                 reg_wr_o    <= 1;           //  enable regwrite to store (PC+4) 
                 reg_dst_o   <= 0;
                 sd_o        <= 0;
+                wmask_o     <= 8'b00000000;
                 jump_o      <= 1;           //  flag JAL instruction
             end
             
-            //Load word from memory module
+            //Load data from memory module
             `LOAD: begin
                 ALUsrc_o    <= 1;           //  Immediate as rs2 source for ALU   
                 ALUOp_o     <= `ALU_addi;   //  since we are getting the memory address from rs1 + imm
@@ -152,11 +160,14 @@ module control(
                 bne_o       <= 0;   
                 reg_wr_o    <= 1;           //  enable regwrite to store loaded data from memory
                 reg_dst_o   <= 0;
+                wmask_o     <= 8'b00000000;
                 sd_o        <= 0;           //  do NOT assert store word flag
                 jump_o      <= 0;       
+                
+
             end
             
-            //store word in memory module
+            //store data  in memory module
             `STORE: begin
                 ALUsrc_o    <= 1;           //  Immediate as rs2 source for ALU
                 ALUOp_o     <= `ALU_addi;   //  since we are getting the memory address from rs1 + imm
@@ -168,6 +179,13 @@ module control(
                 reg_dst_o   <= 0;
                 sd_o        <= 1;           //  actually flag the store word instruction
                 jump_o      <= 0;       
+                
+                case(funct3)
+                    `SD: wmask_o <= 8'b11111111;  //store all 64-bits of data in mem
+                    `SW: wmask_o <= 8'b00001111;  //store only 32-bits of data in mem
+                    `SH: wmask_o <= 8'b00000011;  //store only 16-bits of data in mem
+                endcase
+                
             end
             
             //deassert all signals by default
@@ -180,6 +198,7 @@ module control(
                 reg_wr_o    <= 0;           //  disable regwrite
                 reg_dst_o   <= 0;
                 sd_o        <= 0;
+                wmask_o     <= 8'b00000000;
                 jump_o      <= 0;       
             end
             
