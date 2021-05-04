@@ -223,9 +223,6 @@ module processor(
     
     //////////////Data memory////////////////
     
-//    //Assign default mask (allow all bytes to be written to for now)
-//    assign wmask = 8'b11111111;
-
     //Load and store operations (address comes from rs1 + imm)
     assign addr = alu_res[31:0];
 
