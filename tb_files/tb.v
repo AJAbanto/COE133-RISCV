@@ -58,8 +58,10 @@ module tb();
     
     
     //To Do:
+    //-Clarify if the immediate fields in I-type instructions should take into account the
+    // fact that memory will ignore the first 3-bits of the effective address
     //-Test lw,lh,lwu,lhu
-    //-Test negative offsets on all store and load instructions
+    //-Test negative offsets on all store instructions
     //-Integrate instruction memory module
     
     initial begin
@@ -96,6 +98,11 @@ module tb();
         #10;
         ///////////////////////////////////////////////////////////////////
         
+        ////////////////////Setup for Memory testing/////////////////////
+        //I-type, addi $5,8
+        inst <= 32'b000000001000_00000_000_00101_0010011; 
+        #10;
+        /////////////////////////////////////////////////////////////////
         
         //////////////////////BRANCH INSTRUCTIONS/////////////////////////
         
@@ -117,7 +124,13 @@ module tb();
         /////////////////////////////////////////////////////////////////
         
         
-        //////////////////////LOAD INSTRUCTIONS//////////////////////////
+         //////////////////////LOAD INSTRUCTIONS//////////////////////////
+         
+         //--------------------------NOTE:---------------------
+         // in I-type [31:20] is alloted for Immediate and in a load instruction this is provides the immediate to be 
+         // added to the contents of rs1 to get the effective address (addr) to be sent to the Data memory.
+         // REMEMBER that this immediate DOES account for the fact that it's first 3-bits 
+         // will be ignored for word alignment. This needs to be clarified
         
         //--------POSITIVE OFFSET--------
         
@@ -129,6 +142,11 @@ module tb();
         #10;
         //I-type, ld $3, 2($0) (load contents of (0x0 + 2) into $3)
         inst <= 32'b000000010000_00000_011_00011_0000011; 
+        #10;
+        
+        //--------NEGATIVE OFFSET--------
+        //I-type, ld $3, -4($5) (load contents of (0x5 - 4) into $3) (NOTE: $5 should contain 8)
+        inst <= 32'b000000010000_00101_011_00011_0000011; 
         #10;
         ////////////////////////////////////////////////////////////////
         
@@ -154,7 +172,7 @@ module tb();
         #10;
         /////////////////////////////////////////////////////////////////
         
-        
+       
         
         //NOP
         inst <= 32'b0;
