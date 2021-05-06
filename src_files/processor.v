@@ -65,13 +65,16 @@ module processor(
     wire    [63:0]  addi_imm;    //decoded and sign-extended immediate for Register-Immediate arithmetic
     
     //Immediate dedcoding for Store word instructions
-    wire    [31:0]  sd_imm;     //decoded and sign-extended immediate for SD instruction (in calculating address)
+    wire    [63:0]  sd_imm;     //decoded and sign-extended immediate for SD instruction (in calculating address)
     
+    //32-bit wires for branch instructions
     assign jal_imm  = {{12{inst[31]}},  {inst[31],inst[19:12],inst[20],inst[30:21],1'b0}};  // decodes SB-type format instruction encoding 
     assign jalr_imm = {{20{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding
     assign bra_imm  = {{19{inst[31]}},  {inst[31],inst[7],inst[30:25],inst[11:8],1'b0}};    // decodes B-type format instruction encoding
+    
+    //64-bit wires for load/store and addi instructions
     assign addi_imm = {{52{inst[31]}}, {inst[31:20]}};                                      // decodes I-type format instruction encoding 
-    assign sd_imm   = {{12{inst[31]}},{inst[31:25],inst[11:7]} };                           // decodes S-type format instruction encoding
+    assign sd_imm   = {{52{inst[31]}},{inst[31:25],inst[11:7]} };                           // decodes S-type format instruction encoding
     
     //Instruction control bits
     wire [6:0] funct7;
@@ -164,7 +167,8 @@ module processor(
     
     //Choose source of rs2 (should assert if instruction is Register-Immediate or Load/store operation)
     assign rs2 = (ALUsrc)? ((sd)? sd_imm: addi_imm) : reg_rdata2;    //Take if 1 Immidiate in I-type/S-type format
-                                                     //else take source from register data
+                                                                    //else take source from register data
+                                                                    
     assign rs1 = reg_rdata1;                        //Take next operand from register file
     //Instantiation
     ALU a0(
@@ -223,7 +227,7 @@ module processor(
     
     //////////////Data memory////////////////
     
-    //Load and store operations (address comes from rs1 + imm)
+    //Load and store operations (address comes from rs1 + imm) 
     assign addr = alu_res[31:0];
 
     //connect rs2 as source register for storeword instruction

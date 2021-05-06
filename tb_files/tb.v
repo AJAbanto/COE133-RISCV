@@ -58,10 +58,6 @@ module tb();
     
     
     //To Do:
-    //-Clarify if the immediate fields in I-type instructions should take into account the
-    // fact that memory will ignore the first 3-bits of the effective address
-    //-Test lw,lh,lwu,lhu
-    //-Test negative offsets on all store instructions
     //-Integrate instruction memory module
     
     initial begin
@@ -70,14 +66,10 @@ module tb();
         inst <= 32'b0;
         jal_imm <= 21'b111111111111111110100;   // -12 (negative offset)
         bra_imm <= {{10{1'b1}},3'b100};         // -2 (negative offset)    
-        sd_imm  <= 12'b100000;                  // 4 (positive offset) (note that this accesses data 4 memory  slots offsets from the base address
-                                                // since last 3 bits of the offset are actually ignored
-
-        sw_imm  <= 12'b101000;                  // 5 (positive offset) (note that this accesses data 5 memory  slots offsets from the base address
-                                                // since last 3 bits of the offset are actually ignored
-                                                
-        sh_imm  <= 12'b110000;                  // 6 (positive offset) (note that this accesses data 6 memory  slots offsets from the base address
-                                                // since last 3 bits of the offset are actually ignored
+        
+        sd_imm  <= 12'b100000;                  // Byte address offset of 32
+        sw_imm  <= 12'b101000;                  // Byte address offset of 40
+        sh_imm  <= 12'b110000;                  // Byte address offset of 48
                                                 
         #5;
         nrst <= 1;
@@ -99,8 +91,8 @@ module tb();
         ///////////////////////////////////////////////////////////////////
         
         ////////////////////Setup for Memory testing/////////////////////
-        //I-type, addi $5,8
-        inst <= 32'b000000001000_00000_000_00101_0010011; 
+        //I-type, addi $5,64
+        inst <= 32'b000001000000_00000_000_00101_0010011; 
         #10;
         /////////////////////////////////////////////////////////////////
         
@@ -109,7 +101,7 @@ module tb();
         //--------NEGATIVE OFFSET--------
         
         //J-type, jal $1, -12
-        //Note: at this point PC + 4 should be equal to 18
+        //Note: at the end of this clock cycle PC should equal to 12
         inst <= {jal_imm[20],jal_imm[10:1],jal_imm[11],jal_imm[19:12],5'b10,7'b1101111};
         #10;
         //B-type, beq $1, $0, -4 (branch should be taken)
@@ -124,29 +116,29 @@ module tb();
         /////////////////////////////////////////////////////////////////
         
         
-         //////////////////////LOAD INSTRUCTIONS//////////////////////////
+        //////////////////////LOAD INSTRUCTIONS//////////////////////////
          
-         //--------------------------NOTE:---------------------
-         // in I-type [31:20] is alloted for Immediate and in a load instruction this is provides the immediate to be 
-         // added to the contents of rs1 to get the effective address (addr) to be sent to the Data memory.
-         // REMEMBER that this immediate DOES account for the fact that it's first 3-bits 
-         // will be ignored for word alignment. This needs to be clarified
+        //--------------------------NOTE:---------------------
+        // in I-type [31:20] is alloted for Immediate and in a load instruction this is provides the immediate to be 
+        // added to the contents of rs1 to get the effective address (addr) to be sent to the Data memory.
+        // REMEMBER that this immediate is a byte offset not a memory address offset (i.e 64-bit)
         
         //--------POSITIVE OFFSET--------
         
-        //I-type, ld $3, 0($0) (load contents of (0x0 + 0) into $3)
+        //I-type, ld $3,  0($0) (load contents of memory address [0] into $3)
         inst <= 32'b000000000000_00000_011_00011_0000011; 
         #10;
-        //I-type, ld $3, 1($0) (load contents of (0x0 + 1) into $3)
+        //I-type, ld $3,  8($0) (load contents of memory address [1] into $3)
         inst <= 32'b000000001000_00000_011_00011_0000011; 
         #10;
-        //I-type, ld $3, 2($0) (load contents of (0x0 + 2) into $3)
+        //I-type, ld $3, 16($0) (load contents of memory address [2] into $3)
         inst <= 32'b000000010000_00000_011_00011_0000011; 
         #10;
         
         //--------NEGATIVE OFFSET--------
-        //I-type, ld $3, -4($5) (load contents of (0x5 - 4) into $3) (NOTE: $5 should contain 8)
-        inst <= 32'b000000010000_00101_011_00011_0000011; 
+        //I-type, ld $3, -40($5) (load contents of memory address [3] into $3) 
+        //NOTE: $5 should contain 8 so to 
+        inst <= 32'b111111011000_00101_011_00011_0000011; 
         #10;
         ////////////////////////////////////////////////////////////////
         
@@ -172,7 +164,43 @@ module tb();
         #10;
         /////////////////////////////////////////////////////////////////
         
+        
+        //////////////Setup for Other load instructions//////////////
+        
+        //------------Insert signed value to $4-------------
+        //I-type, addi $4,-64
+        inst <= 32'b111111000000_00000_000_00100_0010011; 
+        #10;
+        
+        //------Store value of $4 to memory address 7-------
+        //NOP
+        inst <= 32'b0;               //set instruction to 0x0 so that we avoid unnecessary operations
+        sd_imm  <= 12'b111000;       //set sd byte address 56 (should be memory address 7) for the next clock cycle  
+        #10;
+        //S-type, sd $5, 56($0) (save contents of $3 into (0x0 + 4))
+        inst <= {sd_imm[11:5],5'b100,5'b0 , 3'b011, sd_imm[4:0],7'b0100011};
+        #10;
+        /////////////////////////////////////////////////////////////////
        
+        ////////////////////OTHER LOAD INSTRUCTIONS//////////////////////
+        
+        //I-type, lw $4,  56($0) (load word contents of memory address [0] into $3)
+        inst <= 32'b000000111000_00000_010_00100_0000011; 
+        #10;
+        
+        //I-type, lwu $4,  56($0) (load word (unsigned) contents of memory address [0] into $3)
+        inst <= 32'b000000111000_00000_110_00100_0000011; 
+        #10;
+        
+        //I-type, lh $4,  56($0) (load halfword contents of memory address [0] into $3)
+        inst <= 32'b000000111000_00000_001_00100_0000011; 
+        #10;
+        
+        //I-type, lhu $4,  56($0) (load halword (unsigned) contents of memory address [0] into $3)
+        inst <= 32'b000000111000_00000_101_00100_0000011; 
+        #10;
+        ////////////////////////////////////////////////////////////////
+        
         
         //NOP
         inst <= 32'b0;

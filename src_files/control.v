@@ -15,6 +15,7 @@ module control(
     output reg_wr,
     output reg_dst,
     output sd,
+    output ld,
     output [7:0] wmask,
     output jump
     );
@@ -30,6 +31,7 @@ module control(
     reg reg_wr_o;
     reg reg_dst_o;
     reg sd_o;
+    reg ld_o;
     reg [7:0] wmask_o;
     reg jump_o;
     
@@ -161,8 +163,8 @@ module control(
                 reg_wr_o    <= 1;           //  enable regwrite to store loaded data from memory
                 reg_dst_o   <= 0;
                 wmask_o     <= 8'b00000000;
-                sd_o        <= 0;           //  do NOT assert store word flag
-                jump_o      <= 0;       
+                sd_o        <= 0;           //  do NOT assert store data flag
+                jump_o      <= 0;           
                 
 
             end
@@ -177,7 +179,7 @@ module control(
                 bne_o       <= 0;   
                 reg_wr_o    <= 0;           //  disable regwrite
                 reg_dst_o   <= 0;
-                sd_o        <= 1;           //  actually flag the store word instruction
+                sd_o        <= 1;           //  actually flag the store data instruction
                 jump_o      <= 0;       
                 
                 case(funct3)
