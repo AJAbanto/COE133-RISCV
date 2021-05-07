@@ -2,8 +2,16 @@
 
 
 /////////////////////////////////////////////////////////////////////////////////
-//  NOTE: This testbench tests the entire setup including the program memory
+//  NOTES: 
+//        - This testbench tests the entire setup including the program memory
+//
+//        - RARS 1.5 was used in generating sample instructions for testing.
+//          This implies that the register names (i.e t0) in the waveform viewer
+//          actually complies to that of the register names in RARS 1.5 for easier
+//          debuging 
+//
 /////////////////////////////////////////////////////////////////////////////////
+
 
 
 `define CLK_PERIOD 10
@@ -57,7 +65,7 @@ module tb_main();
     
     
     //Instantiating instruction memory module
-    mem_model #(INST_MEM_DEPTH,INST_MEM_ADDR_WIDE) 
+    mem_prog #(INST_MEM_DEPTH,INST_MEM_ADDR_WIDE) 
         inst_mem(
         .addr(pc[31:2]),
         .rdata(inst)

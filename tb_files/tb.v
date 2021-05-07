@@ -95,7 +95,7 @@ module tb();
         nrst <= 0;
         inst <= 32'b0;
         jal_imm <= 21'b111111111111111110100;   // -12 (negative offset)
-        bra_imm <= {{10{1'b1}},3'b100};         // -2 (negative offset)    
+        bra_imm <= {{10{1'b1}},3'b100};         // -4 (negative offset)    
         
         sd_imm  <= 12'b100000;                  // Byte address offset of 32
         sw_imm  <= 12'b101000;                  // Byte address offset of 40
