@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Fri May  7 02:25:27 2021" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Fri May  7 19:47:44 2021" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2020.2 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "3064766" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "LIN64" -context "software_version_and_target_device"
@@ -14,11 +14,11 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "ede516e7-7d6c-4e20-b21f-fae8a17b31eb" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "602edb71c4d349a6ba1bfa3b09c5ba2d" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "234" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "238" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "Ubuntu" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "Ubuntu 20.04.2 LTS" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "AMD A8-7600 Radeon R7, 10 Compute Cores 4C+6G" -context "user_environment"
-webtalk_add_data -client project -key cpu_speed -value "1890.348 MHz" -context "user_environment"
+webtalk_add_data -client project -key cpu_speed -value "1430.226 MHz" -context "user_environment"
 webtalk_add_data -client project -key total_processors -value "1" -context "user_environment"
 webtalk_add_data -client project -key system_ram -value "8.000 GB" -context "user_environment"
 webtalk_register_client -client xsim
@@ -26,7 +26,7 @@ webtalk_add_data -client xsim -key Command -value "xsim" -context "xsim\\command
 webtalk_add_data -client xsim -key trace_waveform -value "true" -context "xsim\\usage"
 webtalk_add_data -client xsim -key runtime -value "1 us" -context "xsim\\usage"
 webtalk_add_data -client xsim -key iteration -value "1" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Time -value "0.05_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Memory -value "119764_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 684408903 -regid "" -xml /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/usage_statistics_ext_xsim.xml -html /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Simulation_Time -value "0.04_sec" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Simulation_Memory -value "119784_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 2349283944 -regid "" -xml /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/usage_statistics_ext_xsim.xml -html /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate

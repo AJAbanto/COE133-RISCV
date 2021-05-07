@@ -1,6 +1,17 @@
 `timescale 1ns / 1ps
 
-
+/////////////////////////////////////////////////////////////////////////////////////
+//   NOTE: 
+//        This testbench is for stimulating the 
+//        instructions manually and it should only
+//        be used to check if control signals are correct
+//        and if the instructions are being decoded correctly.
+//        This is why the instruction memory output inst 
+//        does not connect to the processor module.
+//
+//        To test the complete setup which includes the instruction memory
+//        use tb_main.v as testbench
+/////////////////////////////////////////////////////////////////////////////////////
 module tb();
 
     reg             clk;
@@ -13,9 +24,17 @@ module tb();
     wire    [7:0]   wmask;
     wire    [63:0]  rdata;
     
+    
     //data memory module parameters
     parameter       MEM_DATA_DEPTH      = 512;
     parameter       MEM_DATA_ADDR_WIDE  = 29;
+    
+    //instruction memory module parameters
+    parameter       INST_MEM_DEPTH      = 512;
+    parameter       INST_MEM_ADDR_WIDE  = 30;
+    
+    //Output of instruction memory module;
+    wire    [31:0]  inst_mem_o;
     
     //Branch immediates
     reg     [20:0]  jal_imm;
@@ -56,6 +75,17 @@ module tb();
         .wmask(wmask)
     );
     
+    
+    // NOTE: that in this test bench the Instructions are stimulated 
+    // manually. There will be a separate testbench in which intructions will be 
+    // sourced from the actual instruction memory module.
+    
+    //Instantiating instruction memory module
+    mem_model #(INST_MEM_DEPTH,INST_MEM_ADDR_WIDE) 
+        inst_mem(
+        .addr(pc[31:2]),
+        .rdata(inst_mem_o)
+    );
     
     //To Do:
     //-Integrate instruction memory module
