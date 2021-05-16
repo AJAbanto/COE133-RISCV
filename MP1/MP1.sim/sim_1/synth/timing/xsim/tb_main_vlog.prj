@@ -1,0 +1,9 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"tb_main_time_synth.v" \
+"../../../../../../provided_files/memory_model/mem_model.v" \
+"../../../../../../provided_files/memory_model/mem_prog.v" \
+"../../../../../../tb_files/tb_main.v" \
+
+# Do not sort compile order
+nosort

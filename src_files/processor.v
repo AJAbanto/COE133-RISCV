@@ -122,12 +122,12 @@ module processor(
                     //If BNE and not zero, branch to PC + offset
                     //Note: we take into consideration the sign of the immediate
                     if(bra_imm[31] == 1'b1) PC <= PC - (~bra_imm + 1);
-                    PC <= PC + bra_imm;        
+                    else PC <= PC + bra_imm;        
                     
                 end
-                else if(bra && zero) begin
+                else if(~bne && bra && zero) begin
                 
-                    //else if BEQ and zero, branch to PC + offset
+                    //else if BEQ (and not BNE) and zero, branch to PC + offset
                     //Note: we take into consideration the sign of the immediate
                     if(bra_imm[31] == 1'b1) PC <= PC - (~bra_imm + 1);
                     else PC <= PC + bra_imm;    

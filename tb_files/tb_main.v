@@ -13,8 +13,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 
-
-`define CLK_PERIOD 10
+// NOTES:Through trial and error the minimum clock period is determined to be 20ns (for Post-synthesis Timing simulation)
+`define CLK_PERIOD 20
 
 module tb_main();
     reg             clk;
