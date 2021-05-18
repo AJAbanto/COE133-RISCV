@@ -2,7 +2,7 @@
 2020.2
 Nov 18 2020
 09:20:35
-/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/synth/timing/xsim/tb_main_time_synth.v,1621192852,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_model.v,,ALU;control;glbl;processor;regfile,,,,,,,,
+/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/synth/timing/xsim/tb_main_time_synth.v,1621362160,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_model.v,,ALU;control;glbl;processor;regfile,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_model.v,1621180601,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_prog.v,,mem_model,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_prog.v,1621180601,verilog,,/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/tb_files/tb_main.v,,mem_prog,,,,,,,,
 /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/tb_files/tb_main.v,1621180601,verilog,,,,tb_main,,,,,,,,
