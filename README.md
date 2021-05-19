@@ -7,7 +7,8 @@ I decided to make this available for others to use as referrence. In particular 
 the RISC-V Instruction Set Manual ( Volume I: User-Level ISA , version 2.2)
 
 ## Features
-As said, this processor only supports a subset of the RISCV ISA. For more indepth information to the 
+As said, this processor only supports a subset of the RISCV ISA. For more indepth information to the RISC-V Instruction Set Manual which can be found here:
+https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf
 ### Register-register
 * add
 * sub
