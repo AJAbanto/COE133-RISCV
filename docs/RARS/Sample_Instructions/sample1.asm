@@ -16,7 +16,6 @@ lw t4, 0(zero)
 lh t4, 24(zero)
 
 
-
 #Register-immediate 
 addi t1, zero, 1
 addi t2, zero, 10
