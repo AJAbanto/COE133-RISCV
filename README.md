@@ -22,6 +22,7 @@ As said, this processor only supports a subset of the RISCV ISA. For more indept
 ### Unconditional Branch
 * jal
 * jalr
+### Load and Store
 * ld
 * lw
 * lh
