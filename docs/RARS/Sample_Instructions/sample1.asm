@@ -37,10 +37,14 @@ jal t1, continue
 skipped:
 add t2, t1,t1
 
-#check slt to instruction
+#check slt to instruction (should now work with signed inputs)
 continue:
-addi t2, zero, 10
+addi t2, zero, -10
+addi t1, zero, -5
 slt t3, t1, t2
+
+#check if zero register is writable
+addi zero, t1, 100
 
 #store double word to second memory slot (Note: I had to enable 64-bit architecture option)
 sd t2, 8(zero)

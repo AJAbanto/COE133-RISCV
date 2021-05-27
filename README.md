@@ -45,3 +45,6 @@ This was done to standardize testing of the individual outputs of our class.
 * Due to the fact that the memory modules were provided and are different from the RARS addressing convention
 , you wont be able to execute the load and store instructions as intended to be used in the processor in RARS.
 
+## Change log:
+* Fixed slt , it should work with signed values now as well
+* also fixed register zero. It should not be writeable now.

@@ -35,10 +35,34 @@ module ALU(
                 if(rs2[63] == 1'b1) res_o <= rs1 - (~rs2 + 1);
                 else res_o <= rs1 + rs2;
             end
+            
+            
             `ALU_slt: begin                 //set destination to 1 if rs1 less than rs2
-                if(rs1 < rs2) res_o <= 64'b1;
-                else res_o <= 64'b0;
+            
+                case({rs1[63],rs2[63]})
+                    2'b00:begin             //both are positive
+                        if(rs1 < rs2) res_o <= 64'b1;
+                        else res_o <= 64'b0;
+                    end
+                    
+                    2'b01:begin             //rs1 is positive and rs2 is negative
+                        res_o <= 64'b0;     
+                    end
+                    
+                    2'b10:begin             //rs1 is negative and rs2 is positive
+                        res_o <= 64'b1;
+                    end
+                    
+                    2'b11:begin             //rs1 and rs2 are negative so we need to take magnitudes
+                    
+                        //if rs1 magnitude is greater than rs2 then rs1 is less than rs2
+                        if((~rs1 + 1)  > (~rs2 + 1)) res_o <= 64'b1;
+                        else res_o <= 64'b0;
+                    end
+                endcase
             end
+            
+            
         endcase
     end
     

@@ -61,7 +61,10 @@ module regfile(
         else begin
         
             //Writing operation
-            if(wr_en) gen_reg[wr_addr] <= wrdata;       //write data from input
+            if(wr_en) begin
+                if(wr_addr == 32'b0) gen_reg[wr_addr] <= gen_reg[wr_addr];  //latch the zero register
+                else gen_reg[wr_addr] <= wrdata;       //write data from input
+            end
             else gen_reg[wr_addr] <= gen_reg[wr_addr];  //latch
            
             

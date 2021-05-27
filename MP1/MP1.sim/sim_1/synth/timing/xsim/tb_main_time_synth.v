@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Wed May 19 02:22:31 2021
+// Date        : Fri May 28 02:29:08 2021
 // Host        : aj-linux-machine running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -mode timesim -nolib -sdf_anno true -force -file
 //               /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/synth/timing/xsim/tb_main_time_synth.v
