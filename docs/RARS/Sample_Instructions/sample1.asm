@@ -1,3 +1,14 @@
+#Before anything, test Jalr (since this was a bug raised later on)
+addi t1, zero, 100
+beq t1 , zero, jalr_working	#this branch should only work after this branch is shown to be working
+sub t1, t1, t1
+addi t2, zero, 8		#PC address of beq instruction
+jalr t5, t2, -4			#go back to beq instruction
+
+#proceed here if working
+jalr_working:
+addi t1, zero, 0
+
 #Initialize memory slot 4
 addi t3, zero, 32
 sd t3, 32(zero)
@@ -54,3 +65,7 @@ sw t2, 16(zero)
 
 #store halfword to fourth memory slot
 sh t2, 24(zero)
+
+#end of program
+end:
+addi t5, zero, -500

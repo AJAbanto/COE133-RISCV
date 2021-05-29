@@ -38,7 +38,7 @@ Everything was writen and simulated using vivado. This should make it easy for o
 I've also included sample assembly code which I've also compiled into hexadecimal text with RARS. They can be found in docs/RARS along with
 a .jar release of the RARS (You can find more info on RARS and how to use it here: https://github.com/TheThirdOne/rars)
   
-## Notes:
+## Notes
 * Do take note that the memory modules placed in the "provided_files" directory were provided by my professor which can be found here:
 https://github.com/snapdensing/CoE113/tree/master/memory_model 
 This was done to standardize testing of the individual outputs of our class.
@@ -46,4 +46,5 @@ This was done to standardize testing of the individual outputs of our class.
 , you wont be able to execute the load and store instructions as intended to be used in the processor in RARS.
 
 ## Changelog
-* May 28, 2021 - Fixed slt , it should work with signed values now. I also fixed register zero so it should not be writeable now.
+* May 28, 2021 - Fixed slt; slt should work with signed values now. I also fixed register zero so it should not be writeable now.
+* May 30, 2021 - Fixed Jalr, should now be functioning as intended and also with signed values

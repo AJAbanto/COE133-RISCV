@@ -2,8 +2,8 @@
 # Webtalk v2020.2 (64-bit)
 # SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
 # IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Sun May 16 23:58:30 2021
-# Process ID: 5825
+# Start of session at: Sun May 30 02:13:28 2021
+# Process ID: 15008
 # Current directory: /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim
 # Command line: wbtcv -mode batch -source /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/xsim.dir/tb_main_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/MP1/MP1.sim/sim_1/behav/xsim/webtalk.log

@@ -105,10 +105,17 @@ module processor(
         else begin
             if(jump)begin
                 if(opcode == `JALR) begin
-                    //if Jalr, add PC with decoded immediate and address from readdata1 from regfile
-                    //Note: we take into consideration the sign of the immediate
-                    if(jalr_imm[31] == 1'b1) PC <= PC - (~jalr_imm + 1) + reg_rdata1;    
-                    else PC <= PC <= PC + jalr_imm + reg_rdata1;
+                    //   if Jalr, move PC to effective address obtained by the sum of the 
+                    //   decoded immediate and address from readdata1 from regfile
+                    
+                    //Notes: 
+                    //  -we take into consideration the sign of the immediate 
+                    //  -we also assume that the register contains a valid 32-bit base address
+                    //   thus we can take the first 32-bits of the register as the operand
+                    
+                    if(jalr_imm[31] == 1'b1) PC <= reg_rdata1[31:0] - (~jalr_imm + 1) ;    
+                    else PC <= jalr_imm + reg_rdata1[31:0] ;
+                    
                 end else begin
                     
                     //if Jal, add PC with sign extended offset

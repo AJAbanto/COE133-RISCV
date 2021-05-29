@@ -1,0 +1,14 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/ALU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/control.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module control
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_model.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mem_model
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/provided_files/memory_model/mem_prog.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mem_prog
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/processor.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module processor
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/src_files/regfile.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module regfile
+INFO: [VRFC 10-2263] Analyzing Verilog file "/media/aj/Main_drive/Main_storage/Alfred/Ubuntu_storage/RISCV-single-cyle/tb_files/tb_main.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_main
